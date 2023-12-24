@@ -1,0 +1,8 @@
+One common use case is for allowing clients to preserve their session information after logging in. By storing the session information locally and passing it to the server for authentication when making requests, the server can trust that the client is a registered user.
+
+Warning: Please be aware of the security risk of storing JWTs in localStorage.
+
+In this article, you will learn about the applications of JWTs in a server-client relationship using Node.js and vanilla JavaScript.
+
+Deploy your Node applications from GitHub using DigitalOcean App Platform. Let DigitalOcean focus on scaling your app.
+NEW LINE!!!!!
