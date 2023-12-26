@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const { catchAsync } = require('../utils');
+const { catchAsync, userValidators, HttpError } = require('../utils');
 
 exports.createUser = catchAsync(async (req, res) => {
   const newUser = await User.create(req.body);
@@ -13,9 +13,6 @@ exports.createUser = catchAsync(async (req, res) => {
 });
 
 exports.getUsers = catchAsync(async (req, res) => {
-  // const users = await User.find().select('+password');
-  // const users = await User.find().select('-email');
-  // const users = await User.find().select('name year');
   const users = await User.find();
 
   res.status(200).json({
