@@ -10,7 +10,7 @@ exports.checkUserId = catchAsync(async (req, res, next) => {
 exports.checkCreateUserData = catchAsync(async (req, res, next) => {
   const { value, error } = userValidators.createUserDataValidator(req.body);
 
-  if (error) throw new HttpError(400, 'Invalid user data!');
+  if (error) throw new HttpError(400, 'Invalid user data!', error);
 
   await userServices.checkUserExists({ email: value.email });
 
@@ -19,24 +19,14 @@ exports.checkCreateUserData = catchAsync(async (req, res, next) => {
   next();
 });
 
-// exports.checkUpdateUserData = catchAsync(async (req, res, next) => {
-//   const { value, error } = userValidators.updateUserDataValidator(req.body);
-
-//   if (error) throw new HttpError(400, 'Invalid user data..');
-
-//   await userServices.checkUserExists({ email: value.email, _id: { $ne: req.params.id } });
-
-//   req.body = value;
-
-//   next();
-// });
-
 exports.checkUpdateUserData = catchAsync(async (req, res, next) => {
   const { value, error } = userValidators.updateUserDataValidator(req.body);
+
   if (error) throw new HttpError(400, 'Invalid user data..');
 
-  await userServices.checkUserExists({ email: value.email, id: { $ne: req.params.id } });
+  await userServices.checkUserExists({ email: value.email, _id: { $ne: req.params.id } });
+
   req.body = value;
+
   next();
 });
-

@@ -12,7 +12,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: [true, 'Duplicated email..'],
+      unique: true,
     },
     password: {
       type: String,
@@ -33,25 +33,18 @@ const userSchema = new Schema(
 );
 
 // Pre save hook. Fires on "save" and "create" !!!!!
-// userSchema.pre('save', async function(next) {
-//   if (!this.isModified('password')) return next();
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
 
-//   const salt = await genSalt(10);
-//   this.password = await hash(this.password, salt);
+  const salt = await genSalt(10);
+  this.password = await hash(this.password, salt);
 
-//   next();
-// });
+  next();
+});
 
 // userSchema.pre(/^find/, () => {
 //   console.log('FIND');
 // });
-
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  const salt = await genSalt(10);
-  const passwdHash = await hash(this.password, salt);
-  next();
-});
 
 userSchema.methods.checkPassword = (candidate, passwdHash) => compare(candidate, passwdHash);
 

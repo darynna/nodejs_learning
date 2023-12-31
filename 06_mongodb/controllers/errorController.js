@@ -18,12 +18,22 @@ exports.globalErrorHandler = (err, req, res, next) => {
   //   stack,
   //   error,
   // });
-
-  if (serverConfig.environment === 'production') {
-    return res.status(err.status ?? 500).json({
-      msg: !err.status || err.status === 500 ? 'Internal server error' : err.message,
-    });
+  let message;
+  let stack;
+  let error;
+  if (serverConfig.environment === 'development') {
+    message = err.message;
+    stack = err.stack;
+    error = err;
+  } else {
+    message = err.status === 500 ? 'Internal server error' : err.message;
   }
+
+  // if (serverConfig.environment === 'production') {
+  //   return res.status(err.status ?? 500).json({
+  //     msg: !err.status || err.status === 500 ? 'Internal server error' : err.message,
+  //   });
+  // }
 
   res.status(err.status ?? 500).json({
     msg: err.message,
