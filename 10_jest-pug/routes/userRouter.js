@@ -27,11 +27,10 @@ const router = Router();
 router.use(authMiddleware.protect);
 
 router.get('/get-me', userController.getMe);
-// router.patch('/update-me') update data and upload avatar
-// router.patch('/update password') update current password
+router.patch('/update-me', userMiddleware.uploadUserPhoto, userController.updateMe); // update data and upload avatar
+// router.patch('/update-my-password') update current password
 
 // Roles guard
-router.use(authMiddleware.allowFor(userRolesEnum.ADMIN, userRolesEnum.MODERATOR));
 router.use(authMiddleware.allowFor(userRolesEnum.ADMIN, userRolesEnum.MODERATOR));
 
 router
