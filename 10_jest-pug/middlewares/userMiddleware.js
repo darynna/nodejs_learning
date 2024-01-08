@@ -66,3 +66,5 @@ exports.checkUpdateUserData = catchAsync(async (req, res, next) => {
 // }).single('avatar');
 
 exports.uploadUserPhoto = ImageService.initUploadImageMiddleware('avatar');
+
+

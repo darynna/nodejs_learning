@@ -27,6 +27,7 @@ const router = Router();
 router.use(authMiddleware.protect);
 
 router.get('/get-me', userController.getMe);
+router.patch('/update-me', userMiddleware.uploadUserPhoto, userController.updateMe);
 router.patch('/update-me', userMiddleware.uploadUserPhoto, userController.updateMe); // update data and upload avatar
 // router.patch('/update-my-password') update current password
 
